@@ -148,27 +148,27 @@ if st.session_state['login']==True:
             nexrad_search_by_filename(login_username)
 
     if selected == "Locations":
-        st.write("# Nexrad Locations in USA 📍")
-        # filename issue
-        df = pd.read_csv('./database/nexrad_loc.csv')
-        df['text'] = 'City: ' + df['City'] + ', ' + 'State: ' + df["State"] + ', ' + 'Identifier: ' + df[
-            'ICAO Location Identifier'].astype(str)
+        # st.write("# Nexrad Locations in USA 📍")
+        # # filename issue
+        # df = pd.read_csv('./database/nexrad_loc.csv')
+        # df['text'] = 'City: ' + df['City'] + ', ' + 'State: ' + df["State"] + ', ' + 'Identifier: ' + df[
+        #     'ICAO Location Identifier'].astype(str)
 
-        fig = go.Figure(data=go.Scattergeo(
-            lon=df['Long'],
-            lat=df['Lat'],
-            text=df['text'],
-            mode='markers',
-        ))
+        # fig = go.Figure(data=go.Scattergeo(
+        #     lon=df['Long'],
+        #     lat=df['Lat'],
+        #     text=df['text'],
+        #     mode='markers',
+        # ))
 
-        fig.update_layout(
-            title='NexRad Locations',
-            geo_scope='usa',
-            geo=dict(bgcolor='rgba(0,0,0,0)',
-                     lakecolor='#4E5D6C',
-                     landcolor='rgba(51,17,0,0.2)',
-                     subunitcolor='grey'),
+        # fig.update_layout(
+        #     title='NexRad Locations',
+        #     geo_scope='usa',
+        #     geo=dict(bgcolor='rgba(0,0,0,0)',
+        #              lakecolor='#4E5D6C',
+        #              landcolor='rgba(51,17,0,0.2)',
+        #              subunitcolor='grey'),
 
-        )
-        st.plotly_chart(fig, use_container_width=True)
+        # )
+        # st.plotly_chart(fig, use_container_width=True)
 
