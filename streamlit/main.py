@@ -1,11 +1,11 @@
 import streamlit as st
-import plotly.graph_objects as go
+
 import pandas as pd
 from streamlit_option_menu import option_menu
 from Functions.streamlitFunctions import geos_search_by_path,geos_search_by_filename, nexrad_search_by_path,nexrad_search_by_filename
 from Functions.endpoints import register_request,login_request,change_password_request
 from Functions.dashboard import main
-
+import plotly.graph_objects as go
 
       
 
