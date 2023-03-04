@@ -45,8 +45,10 @@ def geos_search_by_path(username):
 
     
     response = request_geos_by_path(username,station,year,day,hour)
-    df_list = [i['noaa-goes18'] for i in response]
-
+    if response != None:
+        df_list = [i['noaa-goes18'] for i in response]
+    else:
+        df_list=["Rate Limit Exceeded"]
     file = st.selectbox(
             'Select file to download',
             df_list,
@@ -122,7 +124,11 @@ def nexrad_search_by_path(username):
             [i[0] for i in station_val]
         )
     response = request_nexrad_by_path(username,year,month,day,station)
-    df_list = [i["noaa-nexrad-level2"] for i in response]
+    if response != None:
+        df_list = [i["noaa-nexrad-level2"] for i in response]
+    else:
+        df_list=["Rate Limit Exceeded"]
+    
     file = st.selectbox(
             'Select file to download',
             df_list,
