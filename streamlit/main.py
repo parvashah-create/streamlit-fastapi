@@ -114,8 +114,8 @@ if st.session_state['login']==True:
     # --- OPTION MENU ----
     selected = option_menu(
         menu_title=None,
-        options=["Dashboard", "GEOS", "NexRad", "Locations"],
-        icons=["house-door", "rocket", "airplane", "geo-fill"],
+        options=["Dashboard", "GEOS", "NexRad"],
+        icons=["house-door", "rocket", "airplane"],
         default_index=0,
         orientation="horizontal"
     )
@@ -147,7 +147,7 @@ if st.session_state['login']==True:
         if search_method == "Search by Filename":
             nexrad_search_by_filename(login_username)
 
-    if selected == "Locations":
+    # if selected == "Locations":
         # st.write("# Nexrad Locations in USA 📍")
         # # filename issue
         # df = pd.read_csv('./database/nexrad_loc.csv')
