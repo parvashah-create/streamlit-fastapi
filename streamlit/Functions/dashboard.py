@@ -7,7 +7,7 @@ import requests
 
 
 def get_api_data(username):
-    host = "http://127.0.0.1:8000" 
+    host = "http://54.160.87.79:8000"
     endpoint = f"/get-admin-data/{username}"
     url = host + endpoint
     response = requests.get(url)
@@ -24,29 +24,66 @@ def get_api_data(username):
         st.error('Error retrieving data from API')
 
 
+# def get_prev_day_data(df):
+#     prev_day = pd.Timestamp.now().normalize() - pd.Timedelta(days=1)
+#     return df[df['timestamp'].dt.normalize() == prev_day]
+
+
+# def get_last_week_data(df):
+#     last_week = pd.Timestamp.now().normalize() - pd.Timedelta(days=7)
+#     return df[df['timestamp'].dt.normalize() >= last_week]
+
+
+# def get_user_count_data(df):
+#     return df.groupby(['username', pd.Grouper(key='timestamp', freq='1D')])['endpoint'].count().reset_index()
+
+
+# def get_endpoint_count_data(df):
+#     return df.groupby('endpoint')['username'].count().reset_index()
+
+
+# def get_success_failed_data(df):
+#     success = df[df['call_status'].between(200,299,inclusive="both")].shape[0]
+#     failed = df[df['call_status'] >= 300].shape[0]
+#     return success, failed
+
 def get_prev_day_data(df):
-    prev_day = pd.Timestamp.now().normalize() - pd.Timedelta(days=1)
-    return df[df['timestamp'].dt.normalize() == prev_day]
+    try:
+        prev_day = pd.Timestamp.now().normalize() - pd.Timedelta(days=1)
+        return df[df['timestamp'].dt.normalize() == prev_day]
+    except:
+        return pd.DataFrame()
 
 
 def get_last_week_data(df):
-    last_week = pd.Timestamp.now().normalize() - pd.Timedelta(days=7)
-    return df[df['timestamp'].dt.normalize() >= last_week]
+    try:
+        last_week = pd.Timestamp.now().normalize() - pd.Timedelta(days=7)
+        return df[df['timestamp'].dt.normalize() >= last_week]
+    except:
+        return pd.DataFrame()
 
 
 def get_user_count_data(df):
-    return df.groupby(['username', pd.Grouper(key='timestamp', freq='1D')])['endpoint'].count().reset_index()
+    try:
+        return df.groupby(['username', pd.Grouper(key='timestamp', freq='1D')])['endpoint'].count().reset_index()
+    except:
+        return pd.DataFrame()
 
 
 def get_endpoint_count_data(df):
-    return df.groupby('endpoint')['username'].count().reset_index()
+    try:
+        return df.groupby('endpoint')['username'].count().reset_index()
+    except:
+        return pd.DataFrame()
 
 
 def get_success_failed_data(df):
-    success = df[df['call_status'].between(200,299,inclusive="both")].shape[0]
-    failed = df[df['call_status'] >= 300].shape[0]
-    return success, failed
-
+    try:
+        success = df[df['call_status'].between(200,299,inclusive="both")].shape[0]
+        failed = df[df['call_status'] >= 300].shape[0]
+        return success, failed
+    except:
+        return 0, 0
 
 def main(username):
     # Load data from API
@@ -91,11 +128,20 @@ def main(username):
 
     # Display each endpoint total number of calls
     st.subheader('Endpoint Calls')
-    fig1 = px.bar(endpoint_count_data, x='endpoint', y='username', labels={'username': 'Call Count'})
-    st.plotly_chart(fig1)
+
+    if not endpoint_count_data.empty:
+        fig1 = px.bar(endpoint_count_data, x='endpoint', y='username', labels={'username': 'Call Count'})
+        st.plotly_chart(fig1)
+    else:
+        st.warning("No data available for Endpoint Calls.")
+    
 
     # Display count of request by each user against time
     st.subheader('User Activity Over Time')
-    fig2 = px.line(user_count_data, x='timestamp', y='endpoint', color='username', title='User Activity Over Time')
-    fig2.update_layout(xaxis_title='Date', yaxis_title='Call Count', legend_title='User ID')
-    st.plotly_chart(fig2)
+
+    if not user_count_data.empty:
+        fig2 = px.line(user_count_data, x='timestamp', y='endpoint', color='username', title='User Activity Over Time')
+        fig2.update_layout(xaxis_title='Date', yaxis_title='Call Count', legend_title='User ID')
+        st.plotly_chart(fig2)
+    else:
+        st.warning("No data available for User Activity Over Time.")

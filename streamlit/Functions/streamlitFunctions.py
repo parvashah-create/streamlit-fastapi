@@ -45,9 +45,8 @@ def geos_search_by_path(username):
 
     
     response = request_geos_by_path(username,station,year,day,hour)
-    print(response)
     if response != None:
-        df_list = [i[0] for i in response]
+        df_list = [i["noaa-goes18"] for i in response]
     else:
         df_list=["Rate Limit Exceeded"]
     file = st.selectbox(
@@ -85,6 +84,7 @@ def geos_search_by_filename(username):
     if download_btn:
         try:
             response = request_geos_download_by_name(username,filename_input) #<------ Endpoint
+            print(response)
             link = response['link']
             st.write(f"link: {link}")
             st.session_state['log_df'] = st.session_state['log_df'].append({'filename':filename_input,'time':datetime.now()},ignore_index=True)
