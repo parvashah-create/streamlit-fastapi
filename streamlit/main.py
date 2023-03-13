@@ -1,10 +1,11 @@
 import streamlit as st
-
+import plotly.graph_objects as go
 import pandas as pd
 from streamlit_option_menu import option_menu
 from Functions.streamlitFunctions import geos_search_by_path,geos_search_by_filename, nexrad_search_by_path,nexrad_search_by_filename
 from Functions.endpoints import register_request,login_request,change_password_request
 from Functions.dashboard import main
+
 
       
 
@@ -114,8 +115,8 @@ if st.session_state['login']==True:
     # --- OPTION MENU ----
     selected = option_menu(
         menu_title=None,
-        options=["Dashboard", "GEOS", "NexRad"],
-        icons=["house-door", "rocket", "airplane"],
+        options=["Dashboard", "GEOS", "NexRad", "Locations"],
+        icons=["house-door", "rocket", "airplane", "geo-fill"],
         default_index=0,
         orientation="horizontal"
     )
@@ -147,28 +148,28 @@ if st.session_state['login']==True:
         if search_method == "Search by Filename":
             nexrad_search_by_filename(login_username)
 
-    # if selected == "Locations":
-        # st.write("# Nexrad Locations in USA 📍")
-        # # filename issue
-        # df = pd.read_csv('./database/nexrad_loc.csv')
-        # df['text'] = 'City: ' + df['City'] + ', ' + 'State: ' + df["State"] + ', ' + 'Identifier: ' + df[
-        #     'ICAO Location Identifier'].astype(str)
+    if selected == "Locations":
+        st.write("# Nexrad Locations in USA 📍")
+        # filename issue
+        df = pd.read_csv('./database/nexrad_loc.csv')
+        df['text'] = 'City: ' + df['City'] + ', ' + 'State: ' + df["State"] + ', ' + 'Identifier: ' + df[
+            'ICAO Location Identifier'].astype(str)
 
-        # fig = go.Figure(data=go.Scattergeo(
-        #     lon=df['Long'],
-        #     lat=df['Lat'],
-        #     text=df['text'],
-        #     mode='markers',
-        # ))
+        fig = go.Figure(data=go.Scattergeo(
+            lon=df['Long'],
+            lat=df['Lat'],
+            text=df['text'],
+            mode='markers',
+        ))
 
-        # fig.update_layout(
-        #     title='NexRad Locations',
-        #     geo_scope='usa',
-        #     geo=dict(bgcolor='rgba(0,0,0,0)',
-        #              lakecolor='#4E5D6C',
-        #              landcolor='rgba(51,17,0,0.2)',
-        #              subunitcolor='grey'),
+        fig.update_layout(
+            title='NexRad Locations',
+            geo_scope='usa',
+            geo=dict(bgcolor='rgba(0,0,0,0)',
+                     lakecolor='#4E5D6C',
+                     landcolor='rgba(51,17,0,0.2)',
+                     subunitcolor='grey'),
 
-        # )
-        # st.plotly_chart(fig, use_container_width=True)
+        )
+        st.plotly_chart(fig, use_container_width=True)
 

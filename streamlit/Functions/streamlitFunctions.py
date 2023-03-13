@@ -7,8 +7,7 @@ from Functions.endpoints import request_geos_by_path, request_geos_download_by_n
 
 def get_db(db):
     # eastablish connection with db
-    db_path = os.getcwd() + "/streamlit/database/{}".format(db)
-    st.write(db_path)
+    db_path = os.getcwd() + "/database/{}".format(db)
     conn = sqlite3.connect(db_path,check_same_thread=False)
     cursor = conn.cursor()
     return conn, cursor
@@ -46,8 +45,9 @@ def geos_search_by_path(username):
 
     
     response = request_geos_by_path(username,station,year,day,hour)
+    print(response)
     if response != None:
-        df_list = [i['noaa-goes18'] for i in response]
+        df_list = [i[0] for i in response]
     else:
         df_list=["Rate Limit Exceeded"]
     file = st.selectbox(

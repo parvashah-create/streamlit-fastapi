@@ -2,7 +2,7 @@ import requests
 import streamlit as st
 import pandas as pd
 
-host_link = "http://54.210.90.102:8000"
+host_link = "http://127.0.0.1:8000"
 
 
 def register_request(name,username,password,plan):
@@ -63,7 +63,6 @@ def request_geos_by_path(username,station,year,day,hour):
     if response.status_code == 429:
         st.error('API rate limit exceeded! upgrade plan to continue')
     else:
-        print(response)
         return response.json()
 
 def request_nexrad_by_path(username,year,month,day,station):
