@@ -2,7 +2,7 @@ import requests
 import streamlit as st
 import pandas as pd
 
-host_link = "http://127.0.0.1:8000"
+host_link = "http://54.160.87.79:8000"
 
 
 def register_request(name,username,password,plan):
