@@ -1,5 +1,6 @@
 import streamlit as st
 import plotly.graph_objects as go
+import os
 import pandas as pd
 from streamlit_option_menu import option_menu
 from Functions.streamlitFunctions import geos_search_by_path,geos_search_by_filename, nexrad_search_by_path,nexrad_search_by_filename
@@ -151,7 +152,9 @@ if st.session_state['login']==True:
     if selected == "Locations":
         st.write("# Nexrad Locations in USA 📍")
         # filename issue
-        df = pd.read_csv('./database/nexrad_loc.csv')
+        file_path = os.getcwd() + "/streamlit/database/nexrad_loc.csv"
+
+        df = pd.read_csv(file_path)
         df['text'] = 'City: ' + df['City'] + ', ' + 'State: ' + df["State"] + ', ' + 'Identifier: ' + df[
             'ICAO Location Identifier'].astype(str)
 
