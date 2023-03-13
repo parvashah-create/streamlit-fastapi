@@ -8,6 +8,7 @@ from Functions.endpoints import request_geos_by_path, request_geos_download_by_n
 def get_db(db):
     # eastablish connection with db
     db_path = os.getcwd() + "/database/{}".format(db)
+    print(db_path)
     conn = sqlite3.connect(db_path,check_same_thread=False)
     cursor = conn.cursor()
     return conn, cursor
